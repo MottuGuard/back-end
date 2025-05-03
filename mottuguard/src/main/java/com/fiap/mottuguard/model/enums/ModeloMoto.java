@@ -1,4 +1,4 @@
-package com.fiap.mottuguard.model;
+package com.fiap.mottuguard.model.enums;
 
 public enum ModeloMoto {
 

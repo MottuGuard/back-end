@@ -15,7 +15,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @EqualsAndHashCode(of = "id")
+@ToString
 public class User implements UserDetails {
 
     @Id

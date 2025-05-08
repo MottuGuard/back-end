@@ -6,11 +6,14 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.fiap.mottuguard.model.User;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TokenService {
@@ -21,10 +24,16 @@ public class TokenService {
     public String generateToken(User user) {
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
+
+            List<String> roles = user.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+
             String token = JWT.create()
                     .withIssuer("mottuguard")
                     .withSubject(user.getLogin())
                     .withExpiresAt(generateExpirationDate())
+                    .withClaim("roles", roles)
                     .sign(algorithm);
             return token;
         } catch (JWTCreationException exception) {

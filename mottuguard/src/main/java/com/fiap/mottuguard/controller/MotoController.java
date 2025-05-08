@@ -36,12 +36,10 @@ public class MotoController {
         });
     }
 
-
-
     @GetMapping("/{id}")
     public ResponseEntity<MotoDTO> buscarMotoPorId(@PathVariable Long id) {
-        Moto documento = motoService.buscarMotoPorId(id);
-        MotoDTO dto = new MotoDTO(documento);
+        Moto moto = motoService.buscarMotoPorId(id);
+        MotoDTO dto = new MotoDTO(moto);
         dto.add(linkTo(methodOn(MotoController.class).buscarMotoPorId(id)).withSelfRel());
 
         return ResponseEntity.status(HttpStatus.OK).body(dto);

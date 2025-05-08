@@ -44,6 +44,8 @@ public class AuthenticationController {
 
         this.userRepository.save(newUser);
 
+        System.out.println(newUser);
+
         return ResponseEntity.ok().build();
     }
 

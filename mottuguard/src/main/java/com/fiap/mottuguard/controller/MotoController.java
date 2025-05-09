@@ -24,58 +24,60 @@ public class MotoController {
     @Autowired
     private MotoService motoService;
 
-    @GetMapping
-    public Page<MotoDTO> buscarMotos(Pageable pageable) {
-        Page<Moto> motos = motoService.listarMotos(pageable);
+    @GetMapping //ready
+    public ResponseEntity buscarMotos(Pageable pageable) {
+        try {
+            Page<MotoDTO> pageMotoDTO = motoService.listarMotos(pageable);
 
-        return motos.map(moto -> {
-            MotoDTO dto = new MotoDTO(moto);
-            dto.add(linkTo(methodOn(MotoController.class)
-                    .buscarMotoPorId(moto.getId())).withSelfRel());
-            return dto;
-        });
+            return ResponseEntity.ok(pageMotoDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MotoDTO> buscarMotoPorId(@PathVariable Long id) {
-        Moto moto = motoService.buscarMotoPorId(id);
-        MotoDTO dto = new MotoDTO(moto);
-        dto.add(linkTo(methodOn(MotoController.class).buscarMotoPorId(id)).withSelfRel());
+    @GetMapping("/{id}") //ready
+    public ResponseEntity buscarMotoPorId(@PathVariable Long id) {
+        try{
+            MotoDTO moto = motoService.buscarMotoPorId(id);
 
-        return ResponseEntity.status(HttpStatus.OK).body(dto);
-    }
-
-    @PostMapping()
-    public ResponseEntity<MotoDTO> adicionarMoto(@RequestBody MotoDTO dto) {
-
-        Moto motoToAdd = new Moto(dto.getId(), dto.getChassi(), dto.getPlaca(), dto.getModelo());
-        motoToAdd = motoService.salvarMoto(motoToAdd);
-
-        MotoDTO responseDto = new MotoDTO(motoToAdd);
-        responseDto.add(linkTo(methodOn(MotoController.class).buscarMotoPorId(motoToAdd.getId())).withSelfRel());
-        return ResponseEntity.status(HttpStatus.CREATED).body(responseDto);
+            return ResponseEntity.status(HttpStatus.OK).body(moto);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
 
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<MotoDTO> atualizarMoto(@PathVariable Long id, @RequestBody MotoDTO dto) {
-        Moto motoToUpdate = motoService.buscarMotoPorId(id);
-        motoToUpdate.setPlaca(dto.getPlaca());
-        motoToUpdate.setChassi(dto.getChassi());
-        motoToUpdate.setModelo(dto.getModelo());
+    @PostMapping() //ready
+    public ResponseEntity adicionarMoto(@RequestBody MotoDTO dto) {
 
-        motoService.atualizarMoto(id, motoToUpdate);
-
-        MotoDTO responseDto = new MotoDTO(motoToUpdate);
-        responseDto.add(linkTo(methodOn(MotoController.class).buscarMotoPorId(motoToUpdate.getId())).withSelfRel());
-
-        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+        try{
+            MotoDTO motoToAdd = motoService.salvarMoto(dto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(motoToAdd);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletarMoto(@PathVariable Long id) {
-        motoService.deletarMoto(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    @PutMapping("/{id}") //ready
+    public ResponseEntity atualizarMoto(@PathVariable Long id, @RequestBody MotoDTO dto) {
+        try{
+            MotoDTO responseDTO = motoService.atualizarMoto(id, dto);
+
+            return ResponseEntity.status(HttpStatus.OK).body(responseDTO);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+
     }
 
+    @DeleteMapping("{id}") //ready
+    public ResponseEntity deletarMoto(@PathVariable Long id) {
+        try{
+            motoService.deletarMoto(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
+    }
 }

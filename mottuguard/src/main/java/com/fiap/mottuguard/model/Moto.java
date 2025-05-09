@@ -22,6 +22,7 @@ public class Moto {
     private String chassi;
 
     @NotBlank(message = "O chassi é obrigatório")
+    @Column(unique = true)
     private String placa;
 
     @NotNull

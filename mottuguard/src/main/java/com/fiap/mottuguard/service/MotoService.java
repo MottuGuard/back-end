@@ -1,5 +1,6 @@
 package com.fiap.mottuguard.service;
 
+import com.fiap.mottuguard.controller.MotoController;
 import com.fiap.mottuguard.dto.MotoDTO;
 import com.fiap.mottuguard.exception.ResourceNotFoundException;
 import com.fiap.mottuguard.model.Moto;
@@ -11,36 +12,54 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @Service
 public class MotoService {
 
     @Autowired
     private MotoRepository motoRepository;
 
-    public Page<Moto> listarMotos(Pageable pageable) {
+    public Page<MotoDTO> listarMotos(Pageable pageable) {
+
         Page<Moto> motos = motoRepository.findAll(pageable);
         if (motos.isEmpty()) {
             throw new ResourceNotFoundException("Nenhuma moto encontrada");
         }
-        return motos;
+
+        Page<MotoDTO> dtoPage = motos.map(moto -> {
+            MotoDTO dto = new MotoDTO(moto);
+            dto.add(linkTo(methodOn(MotoController.class)
+                    .buscarMotoPorId(moto.getId())).withSelfRel());
+            return dto;
+        });
+        
+        return dtoPage;
     }
 
-    public Moto buscarMotoPorId(Long id){
-        return motoRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Moto não encontrada"));
+    public MotoDTO buscarMotoPorId(Long id){
+        Moto moto =  motoRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Moto não encontrada"));
+        MotoDTO dto = new MotoDTO(moto);
+        dto.add(linkTo(methodOn(MotoController.class).buscarMotoPorId(id)).withSelfRel());
+        return dto;
     }
 
-    public Moto salvarMoto(Moto moto){
-        return motoRepository.save(moto);
+    public MotoDTO salvarMoto(MotoDTO motoDTO){
+        Moto motoToAdd = new Moto(motoDTO.getId(), motoDTO.getChassi(), motoDTO.getPlaca(), motoDTO.getModelo());
+        motoRepository.save(motoToAdd);
+        return new MotoDTO(motoToAdd);
     }
 
-    public Moto atualizarMoto(Long id, Moto moto){
-        Moto motoAtualizada = motoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Moto não encontrada"));
+    public MotoDTO atualizarMoto(Long id, MotoDTO moto){
+        Moto motoToUpdate = motoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Moto não encontrada"));
 
-        motoAtualizada.setModelo(moto.getModelo());
-        motoAtualizada.setPlaca(moto.getPlaca());
-        motoAtualizada.setChassi(moto.getChassi());
+        motoToUpdate.setModelo(moto.getModelo());
+        motoToUpdate.setPlaca(moto.getPlaca());
+        motoToUpdate.setChassi(moto.getChassi());
 
-        return motoRepository.save(motoAtualizada);
+        motoRepository.save(motoToUpdate);
+        return new MotoDTO(motoToUpdate);
 
     }
 

@@ -4,6 +4,8 @@ import com.fiap.mottuguard.controller.MotoController;
 import com.fiap.mottuguard.dto.MotoDTO;
 import com.fiap.mottuguard.exception.ResourceNotFoundException;
 import com.fiap.mottuguard.model.Moto;
+import com.fiap.mottuguard.model.enums.ModeloMoto;
+import com.fiap.mottuguard.model.enums.StatusMoto;
 import com.fiap.mottuguard.repository.MotoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,8 +47,40 @@ public class MotoService {
         return dto;
     }
 
+    public Page<MotoDTO> buscarMotoPorModelo(ModeloMoto modelo, Pageable pageable) {
+        Page<Moto> motos = motoRepository.buscarMotoPorModelo(modelo, pageable);
+        if (motos.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhuma moto encontrada");
+        }
+
+        Page<MotoDTO> dtoPage = motos.map(moto -> {
+            MotoDTO dto = new MotoDTO(moto);
+            dto.add(linkTo(methodOn(MotoController.class)
+                    .buscarMotoPorId(moto.getId())).withSelfRel());
+            return dto;
+        });
+
+        return dtoPage;
+    }
+
+    public Page<MotoDTO> buscarMotosPorStatus(StatusMoto status, Pageable pageable) {
+        Page<Moto> motos = motoRepository.buscarMotosPorStatus(status, pageable);
+        if (motos.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhuma moto encontrada");
+        }
+
+        Page<MotoDTO> dtoPage = motos.map(moto -> {
+            MotoDTO dto = new MotoDTO(moto);
+            dto.add(linkTo(methodOn(MotoController.class)
+                    .buscarMotoPorId(moto.getId())).withSelfRel());
+            return dto;
+        });
+
+        return dtoPage;
+    }
+
     public MotoDTO salvarMoto(MotoDTO motoDTO){
-        Moto motoToAdd = new Moto(motoDTO.getId(), motoDTO.getChassi(), motoDTO.getPlaca(), motoDTO.getModelo());
+        Moto motoToAdd = new Moto(motoDTO.getId(), motoDTO.getPlaca(), motoDTO.getChassi(), motoDTO.getStatus(), motoDTO.getModelo());
         motoRepository.save(motoToAdd);
         return new MotoDTO(motoToAdd);
     }
@@ -57,6 +91,7 @@ public class MotoService {
         motoToUpdate.setModelo(moto.getModelo());
         motoToUpdate.setPlaca(moto.getPlaca());
         motoToUpdate.setChassi(moto.getChassi());
+        motoToUpdate.setStatus(moto.getStatus());
 
         motoRepository.save(motoToUpdate);
         return new MotoDTO(motoToUpdate);

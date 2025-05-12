@@ -1,6 +1,7 @@
 package com.fiap.mottuguard.model;
 
 import com.fiap.mottuguard.model.enums.ModeloMoto;
+import com.fiap.mottuguard.model.enums.StatusMoto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,6 +25,10 @@ public class Moto {
     @NotBlank(message = "O chassi é obrigatório")
     @Column(unique = true)
     private String placa;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private StatusMoto status;
 
     @NotNull
     @Enumerated(EnumType.STRING)

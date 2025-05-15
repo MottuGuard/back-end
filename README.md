@@ -3,6 +3,7 @@
 
 A Mottu Guard é uma API para solucionar o problema de organização dos pátios da Mottu, onde será utilizado a tecnologia Híbrida RFID + BLE para identificação da motos dentro de um ambiente fechado.
 
+
 # Tecnologias Utilizadas
 
 - Java 17+
@@ -17,6 +18,68 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 - Spring DevTools
 - Lombok
 
+## Requisitos
+
+Antes de começar, certifique-se de que você tem os seguintes requisitos:
+
+- [Docker](https://docs.docker.com/get-docker/) instalado
+- [Java 17](https://adoptopenjdk.net/) (caso você queira rodar localmente sem Docker)
+- [Maven](https://maven.apache.org/) (caso queira compilar a aplicação localmente)
+
+## Instruções para Rodar a Aplicação com Docker
+
+Este projeto já contém um `Dockerfile` configurado para facilitar a construção e execução da aplicação dentro de um contêiner Docker.
+
+### Passo 1: Clonar o Repositório
+
+Clone o repositório para a sua máquina local:
+
+```bash
+git clone https://github.com/MottuGuard/back-end.git
+cd back-end
+````
+### Passo 2: Construir a imagem
+
+```bash
+docker build -t nome-da-imagem .
+````
+
+### Passo 3: Rodar a imagem
+
+```bash
+docker run -p 8080:8080 nome-da-imagem
+````
+### Passo 4: Acessar  a API
+A API estará disponível em:
+
+```bash
+  http://localhost:8080
+```
+## Rodando localmente
+
+Clone o projeto
+
+```bash
+  git clone https://github.com/MottuGuard/back-end.git
+```
+
+Entre no diretório do projeto
+
+```bash
+  cd back-end
+```
+
+Compile e execute a aplicação
+
+```bash
+  mvn spring-boot:run
+```
+
+A API estará disponível em:
+
+```bash
+  http://localhost:8080
+```
 
 ## Documentação da API
 
@@ -42,6 +105,8 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 | :---------- | :--------- | :------------------------------------------ |
 | `login` | `string` | Nome do seu usuário |
 | `password` | `string` | Sua senha |
+
+Retorna o token bearer do usuário
 
 #### Retorna todas as motos
 
@@ -165,31 +230,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 
 
-## Rodando localmente
 
-Clone o projeto
-
-```bash
-  git clone https://github.com/MottuGuard/back-end.git
-```
-
-Entre no diretório do projeto
-
-```bash
-  cd back-end/mottuguard
-```
-
-Compile e execute a aplicação
-
-```bash
-  mvn spring-boot:run
-```
-
-A API estará disponível em:
-
-```bash
-  http://localhost:8080
-```
 
 
 ## Autores

@@ -4,9 +4,11 @@ import com.fiap.mottuguard.controller.MotoController;
 import com.fiap.mottuguard.dto.MotoDTO;
 import com.fiap.mottuguard.exception.ResourceNotFoundException;
 import com.fiap.mottuguard.model.Moto;
+import com.fiap.mottuguard.model.UwbTag;
 import com.fiap.mottuguard.model.enums.ModeloMoto;
 import com.fiap.mottuguard.model.enums.StatusMoto;
 import com.fiap.mottuguard.repository.MotoRepository;
+import com.fiap.mottuguard.repository.UwbTagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +24,9 @@ public class MotoService {
 
     @Autowired
     private MotoRepository motoRepository;
+
+    @Autowired
+    private UwbTagRepository tagRepository;
 
     public Page<MotoDTO> listarMotos(Pageable pageable) {
 
@@ -79,8 +84,10 @@ public class MotoService {
         return dtoPage;
     }
 
-    public MotoDTO salvarMoto(MotoDTO motoDTO){
-        Moto motoToAdd = new Moto(motoDTO.getId(), motoDTO.getPlaca(), motoDTO.getChassi(), motoDTO.getStatus(), motoDTO.getModelo());
+    public MotoDTO salvarMoto(MotoDTO motoDTO, Long id){
+        UwbTag tag = tagRepository.findById(id).get();
+
+        Moto motoToAdd = new Moto(motoDTO.getId(), motoDTO.getPlaca(), motoDTO.getChassi(), motoDTO.getStatus(), motoDTO.getModelo(), tag);
         motoRepository.save(motoToAdd);
         return new MotoDTO(motoToAdd);
     }

@@ -1,5 +1,6 @@
 package com.fiap.mottuguard.dto;
 
+import com.fiap.mottuguard.model.UwbTag;
 import com.fiap.mottuguard.model.enums.ModeloMoto;
 import com.fiap.mottuguard.model.Moto;
 import com.fiap.mottuguard.model.enums.StatusMoto;
@@ -18,6 +19,7 @@ public class MotoDTO extends RepresentationModel<MotoDTO> {
     private String chassi;
     private StatusMoto status;
     private ModeloMoto modelo;
+    private UwbTag tag;
 
     public MotoDTO(Moto moto) {
         this.id = moto.getId();
@@ -25,6 +27,7 @@ public class MotoDTO extends RepresentationModel<MotoDTO> {
         this.chassi = moto.getChassi();
         this.status = moto.getStatus();
         this.modelo = moto.getModelo();
+        this.tag = moto.getTag();
     }
 
 }

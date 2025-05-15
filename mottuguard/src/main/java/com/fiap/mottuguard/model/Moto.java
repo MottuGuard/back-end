@@ -1,5 +1,6 @@
 package com.fiap.mottuguard.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fiap.mottuguard.model.enums.ModeloMoto;
 import com.fiap.mottuguard.model.enums.StatusMoto;
 import jakarta.persistence.*;
@@ -33,5 +34,8 @@ public class Moto {
     @NotNull
     @Enumerated(EnumType.STRING)
     private ModeloMoto modelo;
+
+    @OneToOne(fetch = FetchType.EAGER)
+    private UwbTag tag;
 
 }

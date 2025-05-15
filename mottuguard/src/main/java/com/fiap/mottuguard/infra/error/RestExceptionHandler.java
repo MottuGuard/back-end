@@ -4,8 +4,11 @@ import com.fiap.mottuguard.exception.ResourceNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.hibernate.TransientObjectException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -40,12 +43,23 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(treatedResponse);
     }
 
-    @ExceptionHandler(TransientObjectException.class)
-    private ResponseEntity<RestErrorMessage> TransientObjectExceptionHandler(TransientObjectException exception){
-        RestErrorMessage treatedResponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Sinto muito, um erro interno aconteceu, tente novamente");
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    private ResponseEntity<RestErrorMessage> DataIntegrityViolationExceptionHandler(DataIntegrityViolationException exception){
+        RestErrorMessage treatedResponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Erro nos parametros, tente novamente");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(treatedResponse);
     }
 
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    private ResponseEntity<RestErrorMessage> internalAuthenticationServiceExceptionHandler(InternalAuthenticationServiceException exception){
+        RestErrorMessage treatedResponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Erro na autenticação, tente novamente");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(treatedResponse);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    private ResponseEntity<RestErrorMessage> badCredentialsExceptionHandler(BadCredentialsException exception){
+        RestErrorMessage treatedResponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Usuário ou senha incorretos :/");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(treatedResponse);
+    }
 
 }
 

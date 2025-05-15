@@ -191,3 +191,10 @@ A API estará disponível em:
   http://localhost:8080
 ```
 
+
+## Autores
+
+- [@gabrielmarcello](https://github.com/gabrielmarcello)
+- [@meiranicolas](https://github.com/meiranicolas)
+- [@gustavoaraujo06](https://github.com/gustavoaraujo06)
+

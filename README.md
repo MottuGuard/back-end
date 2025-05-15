@@ -22,7 +22,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Registra usuário
 
-```http
+```bash
   POST /auth/register
 ```
 
@@ -34,7 +34,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Login de  um usuário
 
-```http
+```bash
   POST /auth/login
 ```
 
@@ -45,13 +45,13 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Retorna todas as motos
 
-```http
+```bash
   GET /moto
 ```
 
 #### Retorna a moto com certo id
 
-```http
+```bash
   GET /moto/id/{id}
 ```
 
@@ -61,7 +61,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Retorna a moto com certo modelo
 
-```http
+```bash
   GET /moto/modelo/{modelo}
 ```
 
@@ -71,7 +71,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Retorna a moto com certo status
 
-```http
+```bash
   GET /moto/modelo/{modelo}
 ```
 
@@ -81,7 +81,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Adiciona moto
 
-```http
+```bash
   POST /moto/adicionarMoto/{id}
 ```
 
@@ -92,7 +92,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Atualiza moto
 
-```http
+```bash
   PUT /moto/{id}
 ```
 
@@ -103,7 +103,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Deleta moto
 
-```http
+```bash
   DELETE /moto/{id}
 ```
 
@@ -113,13 +113,13 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Retorna todas as tags
 
-```http
+```bash
   GET /uwbTag
 ```
 
 #### Retorna a tag com certo id
 
-```http
+```bash
   GET /uwbTag/{id}
 ```
 
@@ -130,7 +130,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Adiciona Tag
 
-```http
+```bash
   POST /uwbTag
 ```
 
@@ -140,7 +140,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Atualizada Tag
 
-```http
+```bash
   PUT /uwbTag/{id}
 ```
 
@@ -151,7 +151,7 @@ A Mottu Guard é uma API para solucionar o problema de organização dos pátios
 
 #### Deleta Tag
 
-```http
+```bash
   DELETE /uwbTag/{id}
 ```
 

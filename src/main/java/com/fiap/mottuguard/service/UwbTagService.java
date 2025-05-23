@@ -8,6 +8,7 @@ import com.fiap.mottuguard.model.Moto;
 import com.fiap.mottuguard.model.UwbTag;
 import com.fiap.mottuguard.repository.UwbTagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ public class UwbTagService {
         return dtoPage;
     }
 
+    @Cacheable("uwbtag")
     public UwbTagDTO buscarTagPorId(Long id) {
         UwbTag tag =  repository.findById(id).orElseThrow(()->new ResourceNotFoundException("Tag não encontrada"));
         UwbTagDTO dto = new UwbTagDTO(tag);

@@ -10,6 +10,7 @@ import com.fiap.mottuguard.model.enums.StatusMoto;
 import com.fiap.mottuguard.repository.MotoRepository;
 import com.fiap.mottuguard.repository.UwbTagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class MotoService {
     @Autowired
     private UwbTagRepository tagRepository;
 
+    @Cacheable("motos")
     public Page<MotoDTO> listarMotos(Pageable pageable) {
 
         Page<Moto> motos = motoRepository.findAll(pageable);
@@ -45,6 +47,7 @@ public class MotoService {
         return dtoPage;
     }
 
+    @Cacheable("moto")
     public MotoDTO buscarMotoPorId(Long id){
         Moto moto =  motoRepository.findById(id).orElseThrow(()->new ResourceNotFoundException("Moto não encontrada"));
         MotoDTO dto = new MotoDTO(moto);

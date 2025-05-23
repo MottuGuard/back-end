@@ -235,7 +235,7 @@ Retorna o token bearer do usuário
 
 ## Autores
 
-- [@gabrielmarcello](https://github.com/gabrielmarcello)
-- [@meiranicolas](https://github.com/meiranicolas)
-- [@gustavoaraujo06](https://github.com/gustavoaraujo06)
+- [@gabrielmarcello](https://github.com/gabrielmarcello) Nome: Gabriel Marcello RM:556783
+- [@meiranicolas](https://github.com/meiranicolas) Nome: Nicolas Meira RM:554464
+- [@gustavoaraujo06](https://github.com/gustavoaraujo06) Nome: Gustavo Araujo RM:555277
 
